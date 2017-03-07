@@ -1,0 +1,201 @@
+body {
+	font-family: 'Arial'
+}
+
+.mainaddstudent {
+	width: 400px;
+	margin: auto;
+}
+
+.editbutton {
+	background: url(../img/edit.png) center;
+	border: none;
+	width: 30px;
+	height: 30px;
+	display: table-cell;
+	background-size: 32px 32px;
+}
+
+.deletebutton {
+	background: url(../img/delete-icon.png) center;
+	border: none;
+	width: 30px;
+	height: 30px;
+	display: table-cell;
+	background-size: 32px 32px;
+}
+
+.titletext {
+	font-weight: bold;
+	background-color: #E3F2FD;
+}
+
+.pagination {
+	margin: auto;
+	position: relative;
+}
+
+.smallcol {
+	width: 5%;
+}
+
+.smallcol2 {
+	width: 8%;
+}
+
+.center {
+	margin: auto;
+	padding: auto;
+	text-align: center;
+}
+/*design view here*/
+.view {
+	border: 1px solid yellow;
+	width: 880px;
+	margin: 5px 0 0 5px;
+}
+
+.student_id_title {
+	width: 50px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.student_name_title {
+	width: 150px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.student_code_title {
+	width: 150px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.address_title {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.average_score_title {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.date_of_birth_title {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.student_control_title {
+	width: 110px;
+	float: left;
+	margin-left: 10px;
+	border: 1px solid gray;
+	text-align: center;
+}
+
+.student_id {
+	width: 50px;
+	margin-left: 10px;
+	float: left;
+	text-align: center;
+	border: 1px solid gray;
+}
+
+.student_name {
+	width: 150px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+
+.student_code {
+	width: 150px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+
+.address {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+
+.average_score {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+
+.date_of_birth {
+	width: 100px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+
+.link {
+	width: 50px;
+	margin-left: 10px;
+	float: left;
+	border: 1px solid gray;
+}
+/*end design view here*/
+/*  table student */
+.divTable {
+	display: table;
+	margin: auto;
+	width: 90%;
+}
+
+.divTableRow {
+	display: table-row;
+}
+
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+
+.divTableCell, .divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+
+.divTableBody {
+	display: table-row-group;
+}
+/* end table student*/

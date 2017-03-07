@@ -1,0 +1,13 @@
+com\vanloi\model\Subject.class
+com\vanloi\controller\StudentController.class
+com\vanloi\dao\UserDao.class
+com\vanloi\dao\StudentDao.class
+com\vanloi\services\UserService.class
+com\vanloi\model\Enrollment.class
+com\vanloi\model\StudentInfo.class
+com\vanloi\services\EnrollmentServices.class
+com\vanloi\services\StudentService.class
+com\vanloi\model\User.class
+com\vanloi\dao\SubjectDao.class
+com\vanloi\model\Student.class
+com\vanloi\dao\EnrollmentDao.class
