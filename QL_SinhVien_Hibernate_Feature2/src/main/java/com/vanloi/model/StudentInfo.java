@@ -2,6 +2,8 @@ package com.vanloi.model;
 // Generated Mar 2, 2017 2:31:24 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -53,8 +56,8 @@ public class StudentInfo{
 		this.infoId = infoId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "student_id")
+	@ManyToOne
+    @JoinColumn(name = "student_id")
 	public Student getStudent() {
 		return this.student;
 	}

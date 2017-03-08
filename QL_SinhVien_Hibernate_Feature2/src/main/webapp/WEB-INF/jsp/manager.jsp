@@ -8,6 +8,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Manager page</title>
 <link
@@ -26,6 +32,16 @@
 </script>
 </head>
 <body>
+	<c:choose>
+		<c:when test="${fn:length(search) != 0}">
+			<c:set var="linkpage"
+				value="${pageContext.request.contextPath}/students/search/${search}/" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="linkpage"
+				value="${pageContext.request.contextPath}/manager/" />
+		</c:otherwise>
+	</c:choose>
 	<fmt:requestEncoding value="UTF-8" />
 	<div class="navbar navbar-default">
 		<div class="navbar-header">
@@ -36,47 +52,36 @@
 		</div>
 
 		<div class="navbar-collapse collapse navbar-responsive-collapse">
-			<ul class="nav navbar-nav ">
-				<li class="active"><a
-					href="${pageContext.request.contextPath}/login.html">Username</a></li>
-				<li><a href="${pageContext.request.contextPath}/editlist.html">Add
-						new</a></li>
+
+			<ul class="nav navbar-nav navbar-right">
+
+				<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/register-subject.html">Register
+						Subject</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/subject-manager.html">Subject</a></li>
+				<li><a class="dropdown-toggle" type="button"
+					data-toggle="dropdown">${userName}</span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Logout</a></li>
+					</ul></li>
 			</ul>
-<%-- 			<form action="${pageContext.request.contextPath}/students/search" --%>
-<%-- 				method="get"> --%>
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${fn:length(search) != 0}"> --%>
-<%-- 						<c:set var="linkpage" --%>
-<%-- 							value="${pageContext.request.contextPath}/students/search/${search}/" /> --%>
-<%-- 						<c:set var="searchLink" value="${search}/" /> --%>
-<%-- 						<form:input type="text" --%>
-<%-- 							class="navbar-form form-control navbar-right" path="search" --%>
-<%-- 							name="searchBox" value="${search}" id="searchBox" --%>
-<%-- 							placeholder="find student" /> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:otherwise> --%>
-<%-- 						<c:set var="linkpage" --%>
-<%-- 							value="${pageContext.request.contextPath}/students/" /> --%>
-<%-- 						<c:set var="searchLink" value="" /> --%>
-<%-- 						<form:input type="text" --%>
-<%-- 							class="navbar-form form-control navbar-right" path="search" --%>
-<%-- 							name="searchBox" value="" id="searchBox" --%>
-<%-- 							placeholder="find student" /> --%>
-<%-- 					</c:otherwise> --%>
-<%-- 				</c:choose> --%>
-<%-- 				<c:set var="searchValue" value="${search}" /> --%>
-<%-- 			</form> --%>
 		</div>
 	</div>
 
-<%-- 	<% --%>
-<!-- // 		String message = request.getParameter("message"); -->
-<!-- // 		if (message != null) -->
-<!-- // 			out.write("<h2 class=\"center\">Save success, student id recently insert is " + message + "</h2>"); -->
-<%-- 	%> --%>
+	<%-- 	<% --%>
+	<!-- // 		String message = request.getParameter("message"); -->
+	<!-- // 		if (message != null) -->
+	<!-- // 			out.write("<h2 class=\"center\">Save success, student id recently insert is " + message + "</h2>"); -->
+	<%-- 	%> --%>
 
 	<h1 class="center">STUDENT LIST</h1>
 	<br>
+	<form action="${pageContext.request.contextPath}/register-student.html">
+		<button class="btn btn-primary">Thêm</button>
+	</form>
 	<div class="divTable">
 		<form name="myform" method="post">
 			<div class="divTableBody">
@@ -91,8 +96,7 @@
 					<div class="divTableCell">Edit</div>
 					<div class="divTableCell">Delete</div>
 				</div>
-				<c:set var="index" value="${pageNumber}"
-					scope="page" />
+				<c:set var="index" value="${pageNumber}" scope="page" />
 
 				<c:forEach items="${studentList}" var="student">
 					<div class="divTableRow">
@@ -108,12 +112,12 @@
 						<div class="divTableCell">${student.getStudentInfo().getAddress()}</div>
 						<div class="divTableCell center">
 							<a
-								href="${pageContext.request.contextPath}/students/edit/${student.getStudentId()}/${searchLink}${pageIndex + 1}"><span
+								href="${pageContext.request.contextPath}/manager/edit/${student.getStudentId()}/${searchLink}${pageNumber}"><span
 								class="editbutton"></span></a>
 						</div>
 						<div class="divTableCell center">
 							<a
-								href="${pageContext.request.contextPath}/students/delete/${student.getStudentId()}/${searchLink}${pageIndex + 1}"><span
+								href="${pageContext.request.contextPath}/manager/delete/${student.getStudentId()}/${searchLink}${pageNumber}"><span
 								class="deletebutton"></span></a>
 						</div>
 					</div>
@@ -127,9 +131,9 @@
 	<center>
 		<ul class="pagination">
 			<li><a href="${linkpage}/1">&laquo;</a></li>
-			<li><c:forEach var="i" begin="1" end="${pageNumber}">
+			<li><c:forEach var="i" begin="1" end="${pageLength}">
 					<c:choose>
-						<c:when test="${i == pageIndex + 1}">
+						<c:when test="${i == pageNumber}">
 							<li class="active"><a href="${linkpage}${i}">${i}</a></li>
 						</c:when>
 						<c:otherwise>
@@ -138,7 +142,7 @@
 					</c:choose>
 					<c:set var="i" value="${i + 1}" />
 				</c:forEach>
-			<li><a href="${linkpage}${pageNumber}">&raquo;</a></li>
+			<li><a href="${linkpage}${pageLength}">&raquo;</a></li>
 		</ul>
 	</center>
 </body>

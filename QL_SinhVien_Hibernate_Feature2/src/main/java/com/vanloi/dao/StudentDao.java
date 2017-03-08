@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.vanloi.model.Student;
+import com.vanloi.model.StudentInfo;
 
 @Repository
 public class StudentDao {
@@ -63,6 +64,15 @@ public class StudentDao {
 
 	public void updateStudent(Student student) {
 		Session session = this.sessionFactory.getCurrentSession();
+		StudentInfo stf = student.getStudentInfos().iterator().next();
+		student.getStudentInfos().clear();
+		int a = student.getStudentInfos().size();
+		stf.setAddress(student.getStudentInfo().getAddress());
+		stf.setAverageScore(student.getStudentInfo().getAverageScore());
+		stf.setDateOfBirth(student.getStudentInfo().getDateOfBirth());
+		student.getStudentInfos().add(stf);
+
+		int b = student.getStudentInfos().size();
 		session.update(student);
 	}
 

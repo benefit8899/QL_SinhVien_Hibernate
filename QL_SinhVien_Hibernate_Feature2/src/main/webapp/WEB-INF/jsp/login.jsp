@@ -26,7 +26,8 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6">
-						<form:form id="myForm" method="post" commandName="user">
+						<form:form id="myForm" method="post" commandName="userLogin"
+							action="login">
 							<fieldset>
 								<div class="form-group">
 									<label for="userNameInput" class="col-lg-3 control-label">User
@@ -48,7 +49,7 @@
 										if (message != null)
 											out.println("<h2 class=\"center\">" + message + "</h2>");
 										else
-											out.println("<h2 class=\"center\">" + "hehe" + "</h2>");
+											out.println("<h2 class=\"center\">" + "" + "</h2>");
 								%>
 								<div class="col-lg-9 col-lg-offset-3">
 									<button class="btn btn-default"

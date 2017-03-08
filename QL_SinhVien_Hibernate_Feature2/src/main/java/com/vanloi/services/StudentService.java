@@ -50,5 +50,4 @@ public class StudentService {
 	public int countAllStudent() {
 		return studentDao.countAllStudent().intValue();
 	}
-
 }
