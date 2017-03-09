@@ -8,6 +8,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -61,11 +63,13 @@
 						Subject</a></li>
 				<li><a
 					href="${pageContext.request.contextPath}/subject-manager.html">Subject</a></li>
-				<li><a class="dropdown-toggle" type="button"
-					data-toggle="dropdown">${userName}</span>
+				<li role="presentation" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">
+						${userName } <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Logout</a></li>
+						<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -79,12 +83,15 @@
 
 	<h1 class="center">STUDENT LIST</h1>
 	<br>
-	<form action="${pageContext.request.contextPath}/register-student.html">
-		<button class="btn btn-primary">Thêm</button>
-	</form>
 	<div class="divTable">
-		<form name="myform" method="post">
-			<div class="divTableBody">
+
+		<form
+			action="${pageContext.request.contextPath}/register-student.html">
+			<button class="btn btn-primary">New Student</button>
+		</form>
+		<div class="divTableBody">
+
+			<form name="myform" method="post">
 				<div class="divTableRow center titletext">
 					<div class="divTableCell">STT</div>
 					<div class="divTableCell">ID</div>
@@ -97,7 +104,6 @@
 					<div class="divTableCell">Delete</div>
 				</div>
 				<c:set var="index" value="${pageNumber}" scope="page" />
-
 				<c:forEach items="${studentList}" var="student">
 					<div class="divTableRow">
 						<div class="divTableCell center smallcol">${index}</div>
@@ -112,19 +118,20 @@
 						<div class="divTableCell">${student.getStudentInfo().getAddress()}</div>
 						<div class="divTableCell center">
 							<a
-								href="${pageContext.request.contextPath}/manager/edit/${student.getStudentId()}/${searchLink}${pageNumber}"><span
+								href="${pageContext.request.contextPath}/manager/edit/${student.getStudentId()}${searchLink}"><span
 								class="editbutton"></span></a>
 						</div>
 						<div class="divTableCell center">
 							<a
-								href="${pageContext.request.contextPath}/manager/delete/${student.getStudentId()}/${searchLink}${pageNumber}"><span
+								href="${pageContext.request.contextPath}/manager/delete/${student.getStudentId()}/${searchLink}"><span
 								class="deletebutton"></span></a>
 						</div>
 					</div>
 					<c:set var="index" value="${index + 1}" scope="page" />
 				</c:forEach>
-			</div>
-		</form>
+
+			</form>
+		</div>
 	</div>
 	<br>
 

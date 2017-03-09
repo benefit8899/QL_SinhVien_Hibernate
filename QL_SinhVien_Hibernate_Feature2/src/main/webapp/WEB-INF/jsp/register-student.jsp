@@ -102,7 +102,7 @@
 									<label for="userNameInput" class="col-lg-3 control-label">Họ tên</label>
 									<div class="col-lg-9">
 										<form:input type="text" class="form-control"
-											path="studentName" id="userNameInput" placeholder="User Name"
+											path="studentName" id="userNameInput" placeholder="User Name" maxlength="100"
 											value="${student.getStudentName()}" />
 										<form:errors path="studentName" cssClass="error" />
 									</div>
@@ -111,7 +111,7 @@
 									<label for="passwordInput" class="col-lg-3 control-label">Mã
 										sv</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control"
+										<form:input type="text" class="form-control" maxlength="50"
 											path="studentCode" id="passwordInput" placeholder="MASV" />
 										<form:errors path="studentCode" cssClass="error" />
 									</div>
@@ -119,7 +119,7 @@
 								<div class="form-group">
 									<label for="firstNameInput" class="col-lg-3 control-label">Địa chỉ</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control" path="studentInfo.address"
+										<form:input type="text" class="form-control" path="studentInfo.address" maxlength="200"
 											id="firstNameInput" placeholder="Địa chỉ" />
 										<form:errors path="studentInfo.address" cssClass="error" />
 									</div>
@@ -139,13 +139,13 @@
 								<div class="form-group">
 									<label for="lastNameInput" class="col-lg-3 control-label">Điểm</label>
 									<div class="col-lg-9">
-										<form:input type="text" class="form-control"
+										<form:input type="number" class="form-control"
 											path="studentInfo.averageScore" id="lastNameInput" placeholder="Điểm" />
 										<form:errors path="studentInfo.averageScore" cssClass="error" />
 									</div>
 								</div>
 								<div class="col-lg-9 col-lg-offset-3">
-									<button type="reset" class="btn btn-default">Cancel</button>
+									<button type="button" class="btn btn-default" onclick="location.href='manager.html'">Cancel</button>
 
 									<button class="btn btn-primary">Submit</button>
 								</div>

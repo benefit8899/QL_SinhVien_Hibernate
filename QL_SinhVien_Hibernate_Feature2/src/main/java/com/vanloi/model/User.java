@@ -18,10 +18,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User {
 
 	private Integer userId;
-	@NotEmpty (message = "Not empty")
+	@NotEmpty
 	private String userName;
 
-	@NotEmpty (message = "Not empty")
+	@NotEmpty
 	private String password;
 
 	public User() {

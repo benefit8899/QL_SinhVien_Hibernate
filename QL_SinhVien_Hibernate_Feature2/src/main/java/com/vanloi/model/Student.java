@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,7 +33,7 @@ public class Student{
 	private String studentName;
 	@NotEmpty
 	private String studentCode;
-	
+	@Valid
 	private StudentInfo studentInfo;
 	private Collection<StudentInfo> studentInfos = new LinkedHashSet<StudentInfo>();
 
@@ -79,6 +80,9 @@ public class Student{
 	public Collection<StudentInfo> getStudentInfos() {
 		return this.studentInfos;
 	}
+	public void setStudentInfos(Collection<StudentInfo> studentInfos) {
+		this.studentInfos = studentInfos;
+	}
 	@Transient
 	public StudentInfo getStudentInfo() {
 		if(studentInfo == null)
@@ -94,9 +98,4 @@ public class Student{
 			studentInfos.add(studentInfo);
 		}
 	}
-
-	public void setStudentInfos(Collection<StudentInfo> studentInfos) {
-		this.studentInfos = studentInfos;
-	}
-
 }

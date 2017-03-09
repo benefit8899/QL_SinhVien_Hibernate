@@ -50,4 +50,9 @@ public class StudentService {
 	public int countAllStudent() {
 		return studentDao.countAllStudent().intValue();
 	}
+	
+	@Transactional
+	public int findInfoIdFromStudentId(int studentId) {
+		return studentDao.findStudentInfoId(studentId);
+	}
 }

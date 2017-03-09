@@ -66,13 +66,13 @@ public class StudentDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		StudentInfo stf = student.getStudentInfos().iterator().next();
 		student.getStudentInfos().clear();
-		int a = student.getStudentInfos().size();
+//		int a = student.getStudentInfos().size();
 		stf.setAddress(student.getStudentInfo().getAddress());
 		stf.setAverageScore(student.getStudentInfo().getAverageScore());
 		stf.setDateOfBirth(student.getStudentInfo().getDateOfBirth());
 		student.getStudentInfos().add(stf);
 
-		int b = student.getStudentInfos().size();
+//		int b = student.getStudentInfos().size();
 		session.update(student);
 	}
 
@@ -82,5 +82,10 @@ public class StudentDao {
 		if (null != p) {
 			session.delete(p);
 		}
+	}
+	
+	public int findStudentInfoId(int studentId) {
+		Session session = this.sessionFactory.getCurrentSession();
+		return (int) session.createQuery("select info_id from student_info where student_id = :studentId").uniqueResult();
 	}
 }

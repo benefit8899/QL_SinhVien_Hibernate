@@ -6,7 +6,11 @@ body {
 	width: 400px;
 	margin: auto;
 }
-
+.error {
+	color: #ff0000;
+	font-size: 0.9em;
+	font-weight: bold;
+}
 .editbutton {
 	background: url(../img/edit.png) center;
 	border: none;
