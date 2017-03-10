@@ -108,14 +108,14 @@
 					<div class="divTableRow">
 						<div class="divTableCell center smallcol">${index}</div>
 						<div class="divTableCell center smallcol2">${student.getStudentId()}</div>
-						<div class="divTableCell">${student.getStudentName()}</div>
+						<div class="divTableCell largecol">${student.getStudentName()}</div>
 						<div class="divTableCell center">${student.getStudentCode()}</div>
 						<div class="divTableCell center">
 							<fmt:formatDate pattern="MM/dd/yyyy"
 								value="${student.getStudentInfo().getDateOfBirth()}" />
 						</div>
-						<div class="divTableCell center">${student.getStudentInfo().getAverageScore()}</div>
-						<div class="divTableCell">${student.getStudentInfo().getAddress()}</div>
+						<div class="divTableCell center ">${student.getStudentInfo().getAverageScore()}</div>
+						<div class="divTableCell autocol">${student.getStudentInfo().getAddress()}</div>
 						<div class="divTableCell center">
 							<a
 								href="${pageContext.request.contextPath}/manager/edit/${student.getStudentId()}${searchLink}"><span

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.mysql.jdbc.StringUtils;
 import com.vanloi.model.Student;
 import com.vanloi.model.StudentInfo;
 import com.vanloi.model.User;
@@ -27,13 +29,15 @@ import com.vanloi.services.UserService;
 public class StudentController {
 	public static int NUMBER_RECORD_IN_PAGE = 10;
 
+	private Logger logger = Logger.getLogger(StudentController.class);
+	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private StudentService studentService;
 
-	//------------------ HOME-------------------
-	@RequestMapping(value = {"/", "index"})
+	// ------------------ HOME-------------------
+	@RequestMapping(value = { "/", "index" })
 	public String requestMappingHome(Model model, HttpSession session) {
 		String userName = (String) session.getAttribute("userName");
 		userName = userName != null ? userName : ""; // Attribute not be null
@@ -41,7 +45,7 @@ public class StudentController {
 		return "index";
 	}
 
-	//----------------- LOGIN ------------------
+	// ----------------- LOGIN ------------------
 	// get request page login page
 	@RequestMapping(value = { "login" }, method = RequestMethod.GET)
 	public String getLoginPage(Model model, HttpSession session) {
@@ -49,35 +53,62 @@ public class StudentController {
 		model.addAttribute("userLogin", user);
 		return "login";
 	}
-	//process login page
-	@RequestMapping(value = { "manager" }, method = { RequestMethod.POST, RequestMethod.GET })
+
+	// process login page
+	@RequestMapping(value = { "manager" }, method = { RequestMethod.POST })
 	public String processLogin2(@ModelAttribute("userLogin") @Valid User userLogin, BindingResult result, Model model,
 			HttpSession session) {
 		if (result.hasErrors())
 			return "login";
+
 		User user = userService.getUserByUserName(userLogin.getUserName());
 		if (user != null && userLogin.getPassword().equals(user.getPassword())) {
 			model.addAttribute("userName", user.getUserName());
 			model.addAttribute("page", "1");
 			session.setAttribute("userName", user.getUserName());
 			session.setAttribute("page", "1");
+			
+			logger.info("This is an info log entry");
+	        logger.error("This is an error log entry");
+			
 			return loadPage(model, session);
 		} else {
 			model.addAttribute("message", "user name and password incorect!!");
 			return "redirect:login.html";
 		}
 	}
-	//----------------- MAIN PAGE -------------------
+
+	// Process log out
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(Model model, HttpSession session) {
+		session.removeAttribute("userName");
+		model.addAttribute("userName", "");
+		return "index";
+	}
+
+	// ----------------- MAIN PAGE -------------------
 	@RequestMapping(value = { "manager/{pageNumber}" }, method = RequestMethod.GET)
 	public String processLoadPage(@PathVariable("pageNumber") String pageNumber, Model model, HttpSession session) {
+
+		String userName = (String) session.getAttribute("userName");
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		session.setAttribute("page", pageNumber);
 		model.addAttribute("page", pageNumber);
 		return loadPage(model, session);
 	}
 
-	@RequestMapping(value = { "/liststudent/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "manager" }, method = RequestMethod.GET)
 	public String loadPage(Model model, HttpSession session) {
+
 		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		String page = (String) session.getAttribute("page");
 		int pageNumber = Integer.valueOf(page);
 		int startIndex = (pageNumber - 1) * NUMBER_RECORD_IN_PAGE;
@@ -101,7 +132,14 @@ public class StudentController {
 	// INSERT
 	// recive request mapping url
 	@RequestMapping(value = { "register-student" }, method = RequestMethod.GET)
-	public String requestMappingRegisterStudent(Model model) {
+	public String requestMappingRegisterStudent(Model model, HttpSession session) {
+
+		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		Student student = new Student();
 		student.setStudentInfo(new StudentInfo());
 		student.getStudentInfo().setDateOfBirth(new Date());
@@ -116,7 +154,8 @@ public class StudentController {
 		if (result.hasErrors())
 			return "register-student";
 		studentService.addStudent(student);
-		String pageLength = String.valueOf(((int) Math.ceil(studentService.countAllStudent() / (double) NUMBER_RECORD_IN_PAGE)));
+		String pageLength = String
+				.valueOf(((int) Math.ceil(studentService.countAllStudent() / (double) NUMBER_RECORD_IN_PAGE)));
 		session.setAttribute("page", pageLength);
 		model.addAttribute("page", pageLength);
 		return loadPage(model, session);
@@ -126,7 +165,14 @@ public class StudentController {
 	// recieve request edit of a student from showlist page or editlist page
 	@RequestMapping(value = { "/manager/edit/{student_id}" }, method = { RequestMethod.GET })
 	public String editStudent(@ModelAttribute("student_id") String student_id, @ModelAttribute("page") String page,
-			Model model) {
+			Model model, HttpSession session) {
+
+		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		Student student = studentService.getStudent(Integer.valueOf(student_id));
 		student.setStudentInfo(student.getStudentInfos().iterator().next());
 		model.addAttribute("student", student);
@@ -134,10 +180,13 @@ public class StudentController {
 	}
 
 	@RequestMapping(value = { "/manager/edit/{student_id}" }, method = { RequestMethod.POST })
-	public String editStudent(@ModelAttribute("student") Student student, Model model,
+	public String editStudent(@ModelAttribute("student") @Valid Student student, BindingResult result, Model model,
 			@ModelAttribute("student_id") String student_id, @ModelAttribute("page") String page, HttpSession session) {
+		if (result.hasErrors())
+			return "register-student";
+
 		student.setStudentId(Integer.valueOf(student_id));
-		
+
 		Student studentOld = (Student) session.getAttribute("student");
 		session.removeAttribute("student");
 		student.getStudentInfo().setInfoId(studentOld.getStudentInfo().getInfoId());
@@ -149,26 +198,39 @@ public class StudentController {
 	@RequestMapping(value = { "/manager/delete/{student_id}" }, method = { RequestMethod.GET })
 	public String deleteStudent(@ModelAttribute("student_id") String student_id, @ModelAttribute("page") String page,
 			Model model, HttpSession session) {
+
+		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		studentService.deleteStudent(Integer.valueOf(student_id));
 		return loadPage(model, session);
 	}
 
 	@RequestMapping(value = { "subject-manager" }, method = RequestMethod.GET)
-	public String requestMappingSubject(Model model) {
+	public String requestMappingSubject(Model model, HttpSession session) {
+
+		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
 		return "subject-manager";
 	}
 
 	@RequestMapping(value = "register-subject", method = RequestMethod.GET)
-	public String requestMappingRegisterSubject(Model model) {
-		return "register-subject";
-	}
+	public String requestMappingRegisterSubject(Model model, HttpSession session) {
 
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(Model model, HttpSession session) {
-		session.removeAttribute("userName");
-		// model.addAttribute("userName", "");
-		model.addAttribute("userName", "");
-		return "index";
+		String userName = (String) session.getAttribute("userName");
+
+		// check for client type url
+		if (StringUtils.isNullOrEmpty(userName))
+			return "index";
+
+		return "register-subject";
 	}
 
 }

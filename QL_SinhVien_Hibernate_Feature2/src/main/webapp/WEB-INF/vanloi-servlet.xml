@@ -1,13 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
       http://www.springframework.org/schema/aop 
      http://www.springframework.org/schema/aop/spring-aop.xsd
-      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security-4.2.xsd">
 
 	<mvc:annotation-driven />
 	<context:annotation-config />
@@ -49,7 +51,7 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
+
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
@@ -59,4 +61,22 @@
 		<property name="basename" value="classpath:messages" />
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/manager/edit/*"
+			access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/manager/delete/*"
+			access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/register-student.html*"
+			access="ROLE_ADMIN" />
+		<security:form-login login-page="/login"
+			default-target-url="/index" authentication-failure-url="/login?error"
+			username-parameter="userName" password-parameter="password" />
+	</security:http>
+	<security:user-service>
+		<security:user name="user1" password="us"
+			authorities="ROLE_USER" />
+		<security:user name="admin" password="ad"
+			authorities="ROLE_ADMIN" />
+	</security:user-service>
+	
 </beans>

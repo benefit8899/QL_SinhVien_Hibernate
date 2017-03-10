@@ -1,7 +1,12 @@
 body {
 	font-family: 'Arial'
 }
-
+.largecol {
+    width: 25%;
+}
+.autocol {
+    width: 45%;
+}
 .mainaddstudent {
 	width: 400px;
 	margin: auto;
