@@ -145,7 +145,7 @@
 									</div>
 								</div>
 								<div class="col-lg-9 col-lg-offset-3">
-									<button type="button" class="btn btn-default" onclick="location.href='manager.html'">Cancel</button>
+									<button type="button" class="btn btn-default" onclick="location.href='${pageContext.request.contextPath}/manager.html'">Cancel</button>
 
 									<button class="btn btn-primary">Submit</button>
 								</div>

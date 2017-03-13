@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vanloi.dao.StudentDao;
 import com.vanloi.model.Student;
+import com.vanloi.model.StudentSearch;
 
 @Service("studentService")
 public class StudentService {
@@ -50,9 +51,14 @@ public class StudentService {
 	public int countAllStudent() {
 		return studentDao.countAllStudent().intValue();
 	}
+	@Transactional
+	public List<StudentSearch> findStudent(StudentSearch student, int start,int length) {
+		return studentDao.findStudent(student, start, length);
+	}
 	
 	@Transactional
-	public int findInfoIdFromStudentId(int studentId) {
-		return studentDao.findStudentInfoId(studentId);
+	public int countStudentFinding(StudentSearch student)
+	{
+		return studentDao.countStudentFinding(student);
 	}
 }

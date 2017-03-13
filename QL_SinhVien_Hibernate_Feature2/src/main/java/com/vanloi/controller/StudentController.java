@@ -30,7 +30,7 @@ public class StudentController {
 	public static int NUMBER_RECORD_IN_PAGE = 10;
 
 	private Logger logger = Logger.getLogger(StudentController.class);
-	
+
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -67,10 +67,10 @@ public class StudentController {
 			model.addAttribute("page", "1");
 			session.setAttribute("userName", user.getUserName());
 			session.setAttribute("page", "1");
-			
+
 			logger.info("This is an info log entry");
-	        logger.error("This is an error log entry");
-			
+			logger.error("This is an error log entry");
+
 			return loadPage(model, session);
 		} else {
 			model.addAttribute("message", "user name and password incorect!!");
@@ -120,7 +120,6 @@ public class StudentController {
 			startIndex = (pageNumber - 1) * NUMBER_RECORD_IN_PAGE;
 			studentList = studentService.getAllStudentsLimit(startIndex, NUMBER_RECORD_IN_PAGE);
 		}
-
 		model.addAttribute("studentList", studentList);
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("pageLength", pageLength);
@@ -232,5 +231,7 @@ public class StudentController {
 
 		return "register-subject";
 	}
+
+	
 
 }

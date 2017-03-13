@@ -1,7 +1,11 @@
 package com.vanloi.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.vanloi.model.Student;
 import com.vanloi.model.StudentInfo;
+import com.vanloi.model.StudentSearch;
 
 @Repository
 public class StudentDao {
@@ -41,11 +46,6 @@ public class StudentDao {
 	}
 
 	public Long countAllStudent(String[] keys, String[] values) {
-//		String query = keys[0] + "=:" + keys[0];
-//
-//		for (int i = 1; i < keys.length; i++) {
-//			query += " and " + keys[i] + "=" + values[i];
-//		}
 		Session session = this.sessionFactory.getCurrentSession();
 		return (Long) session.createQuery("select count (*) from Student where ").uniqueResult();
 	}
@@ -66,13 +66,13 @@ public class StudentDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		StudentInfo stf = student.getStudentInfos().iterator().next();
 		student.getStudentInfos().clear();
-//		int a = student.getStudentInfos().size();
+		// int a = student.getStudentInfos().size();
 		stf.setAddress(student.getStudentInfo().getAddress());
 		stf.setAverageScore(student.getStudentInfo().getAverageScore());
 		stf.setDateOfBirth(student.getStudentInfo().getDateOfBirth());
 		student.getStudentInfos().add(stf);
 
-//		int b = student.getStudentInfos().size();
+		// int b = student.getStudentInfos().size();
 		session.update(student);
 	}
 
@@ -83,9 +83,107 @@ public class StudentDao {
 			session.delete(p);
 		}
 	}
-	
-	public int findStudentInfoId(int studentId) {
+
+	@SuppressWarnings("unchecked")
+	public List<StudentSearch> findStudent(StudentSearch student, int start, int length) {
 		Session session = this.sessionFactory.getCurrentSession();
-		return (int) session.createQuery("select info_id from student_info where student_id = :studentId").uniqueResult();
+//		String query = "from Student s, StudentInfo sf where s = sf.student";
+
+		String query = "from Student s, StudentInfo sf where sf.student = s";
+		if (student.getStudentName() != null)
+			query += " and student_name like :studentName";
+		if (student.getStudentCode() != null)
+			query += " and student_code = :studentCode ";
+			if (student.getAddress() != null)
+				query += " and student_address like :studentAddress";
+			if (student.getAverageScore() != -1)
+				query += " and average_score >= :averageScore ";
+			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() !=  null)
+				query += " and date_of_birth between :dateOfBirth and :dateOfBirthUp ";
+			else if (student.getDateOfBirth() != null)
+				query += " and date_of_birth >= :dateOfBirth ";
+			else if (student.getDateOfBirthUp() != null)
+				query += " and date_of_birth <= :dateOfBirthUp ";
+	
+		Query queryS = session.createQuery(query);
+
+		if (student.getStudentName() != null) {
+			queryS.setParameter("studentName","%" + student.getStudentName() + "%");
+		}
+		if (student.getStudentCode() != null)
+			queryS.setParameter("studentCode", student.getStudentCode());
+			if (student.getAddress() != null)
+				queryS.setParameter("studentAddress", student.getAddress());
+			if (student.getAverageScore() != -1)
+				queryS.setParameter("averageScore", student.getAverageScore());
+			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() != null) {
+				queryS.setParameter("dateOfBirth", student.getAverageScore());
+				queryS.setParameter("dateOfBirthUp", student.getDateOfBirthUp());
+			} else if (student.getDateOfBirth() != null)
+				queryS.setParameter("dateOfBirth", student.getDateOfBirth());
+			else if (student.getDateOfBirthUp() != null)
+				queryS.setParameter("dateOfBirthUp", student.getDateOfBirthUp());
+		
+		queryS.setMaxResults(length);
+		queryS.setFirstResult(start);
+		List<Student> studentList = queryS.list();
+		List<StudentSearch> studentListResult = new ArrayList<StudentSearch>();
+		for(Object c : studentList){
+			Object[] cs = (Object[])c;
+			Student s = (Student)cs[0];
+			StudentInfo sf = (StudentInfo)cs[1];
+			
+			StudentSearch st = new StudentSearch();
+			st.setStudentId(s.getStudentId());
+			st.setStudentName(s.getStudentName());
+			st.setStudentCode(s.getStudentCode());
+			st.setAddress(sf.getAddress());
+			st.setDateOfBirth(sf.getDateOfBirth());
+			st.setAverageScore(sf.getAverageScore());
+			studentListResult.add(st);
+		}
+		return studentListResult;
+	}
+	public int countStudentFinding(StudentSearch student) {
+		Session session = this.sessionFactory.getCurrentSession();
+//		String query = "from Student s, StudentInfo sf where s = sf.student";
+
+		String query = "select count (*) from Student s, StudentInfo sf where sf.student = s";
+		if (student.getStudentName() != null)
+			query += " and student_name like :studentName";
+		if (student.getStudentCode() != null)
+			query += " and student_code = :studentCode ";
+			if (student.getAddress() != null)
+				query += " and student_address like :studentAddress";
+			if (student.getAverageScore() != -1)
+				query += " and average_score >= :averageScore ";
+			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() !=  null)
+				query += " and date_of_birth between :dateOfBirth and :dateOfBirthUp ";
+			else if (student.getDateOfBirth() != null)
+				query += " and date_of_birth >= :dateOfBirth ";
+			else if (student.getDateOfBirthUp() != null)
+				query += " and date_of_birth <= :dateOfBirthUp ";
+	
+		Query queryS = session.createQuery(query);
+
+		if (student.getStudentName() != null) {
+			queryS.setParameter("studentName","%" + student.getStudentName() + "%");
+		}
+		if (student.getStudentCode() != null)
+			queryS.setParameter("studentCode", student.getStudentCode());
+			if (student.getAddress() != null)
+				queryS.setParameter("studentAddress", student.getAddress());
+			if (student.getAverageScore() != -1)
+				queryS.setParameter("averageScore", student.getAverageScore());
+			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() != null) {
+				queryS.setParameter("dateOfBirth", student.getAverageScore());
+				queryS.setParameter("dateOfBirthUp", student.getDateOfBirthUp());
+			} else if (student.getDateOfBirth() != null)
+				queryS.setParameter("dateOfBirth", student.getDateOfBirth());
+			else if (student.getDateOfBirthUp() != null)
+				queryS.setParameter("dateOfBirthUp", student.getDateOfBirthUp());
+			
+		Long lengthStudentList = (Long)queryS.uniqueResult();
+		return lengthStudentList.intValue();
 	}
 }

@@ -1,37 +1,72 @@
 body {
 	font-family: 'Arial'
 }
+
+.searchDialog {
+	border-radius: 5px;
+	border: 1px solid gray;
+	padding: 10px;
+	marrgin: auto;
+	display: none;
+}
+
 .largecol {
-    width: 25%;
+	width: 25%;
 }
+
+.add-on .input-group-btn>.btn {
+	border-left-width: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* stop the glowing blue shadow */
+.add-on .form-control:focus {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border-color: #cccccc;
+}
+
+.navbar-nav>li>a {
+	border-right: 1px solid #ddd;
+	padding-bottom: 15px;
+	padding-top: 15px;
+}
+
+.navbar-nav:last-child {
+	border-right: 0
+}
+
 .autocol {
-    width: 45%;
+	width: 45%;
 }
+
 .mainaddstudent {
 	width: 400px;
 	margin: auto;
 }
+
 .error {
 	color: #ff0000;
 	font-size: 0.9em;
 	font-weight: bold;
 }
+
 .editbutton {
 	background: url(../img/edit.png) center;
 	border: none;
 	width: 30px;
-	height: 30px;
+	height: 25px;
 	display: table-cell;
-	background-size: 32px 32px;
+	background-size: 28px 27px;
 }
 
 .deletebutton {
 	background: url(../img/delete-icon.png) center;
 	border: none;
 	width: 30px;
-	height: 30px;
+	height: 25px;
 	display: table-cell;
-	background-size: 32px 32px;
+	background-size: 28px 27px;
 }
 
 .titletext {
