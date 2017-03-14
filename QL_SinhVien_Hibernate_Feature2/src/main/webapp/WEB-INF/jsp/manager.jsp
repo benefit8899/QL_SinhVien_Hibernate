@@ -13,7 +13,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
@@ -26,12 +26,21 @@
 <link
 	href="${pageContext.request.contextPath}/resource/assets/css/style.css"
 	rel="stylesheet" />
+<link
+	href="${pageContext.request.contextPath}/resource/datepicker/css/datepicker.css"
+	rel="stylesheet" />
 <script
 	src="${pageContext.request.contextPath}/resource/js/jquery-1.8.3.js">
 	
 </script>
+
 <script
 	src="${pageContext.request.contextPath}/resource/bootstrap/js/bootstrap.js">
+	
+</script>
+
+<script
+	src="${pageContext.request.contextPath}/resource/datepicker/js/bootstrap-datepicker.js">
 	
 </script>
 </head>
@@ -77,7 +86,8 @@
 					<input class="form-control" placeholder="Search" name="srch-term"
 						id="srch-term" type="text">
 					<div class="input-group-btn">
-						<button class="btn btn-default form-control" type="button" onclick="searchClick();">
+						<button class="btn btn-default form-control" type="button"
+							onclick="searchClick();">
 							<i class="glyphicon glyphicon-search"></i>
 						</button>
 						<button class="btn btn-default form-control" type="button"
@@ -103,18 +113,18 @@
 					commandName="student" onsubmit="return validateForm()">
 					<fieldset>
 						<div class="form-group">
-							<label for="userNameInput" class="col-lg-2 control-label">Họ
+							<label for="studentNameInput" class="col-lg-2 control-label">Họ
 								tên</label>
 							<div class="col-lg-4">
-								<input type="text" class="form-control" id="userNameInput"
+								<input type="text" class="form-control" id="studentNameInput"
 									placeholder="User Name" maxlength="100"
 									value="${student.getStudentName()}" />
 							</div>
-							<label for="passwordInput" class="col-lg-2 control-label">Mã
+							<label for="studentCodeInput" class="col-lg-2 control-label">Mã
 								sv</label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control" maxlength="50"
-									id="passwordInput" placeholder="MASV" />
+									id="studentCodeInput" placeholder="MASV" />
 							</div>
 						</div>
 						<div class="form-group"></div>
@@ -122,32 +132,26 @@
 							<label for="dateOfBirthInput" class="col-lg-2 control-label">Ngày
 								sinh</label>
 							<div class="date form_date col-lg-4">
-								<fmt:formatDate pattern="MM/dd/yyyy" var="dateformat"
-									value="${student.getStudentInfo().getDateOfBirth()}" />
 								<input type="text" class="form-control inputDate"
-									id="dateOfBirthInput" placeholder="Date of Birth"
-									value="${dateformat}" disabled="disabled" onfocus="this.blur()" />
+									id="dateOfBirthInput" placeholder="Date of Birth" />
 							</div>
-							<label for="dateOfBirthInput" class="col-lg-2 control-label">to</label>
+							<label for="dateOfBirthUpInput" class="col-lg-2 control-label">to</label>
 							<div class="date form_date col-lg-4">
-								<fmt:formatDate pattern="MM/dd/yyyy" var="dateformat"
-									value="${student.getStudentInfo().getDateOfBirth()}" />
 								<input type="text" class="form-control inputDate"
-									id="dateOfBirthInput" placeholder="Date of Birth"
-									value="${dateformat}" disabled="disabled" onfocus="this.blur()" />
+									id="dateOfBirthUpInput" placeholder="Date of Birth" />
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="firstNameInput" class="col-lg-2 control-label">Địa
+							<label for="addressInput" class="col-lg-2 control-label">Địa
 								chỉ</label>
 							<div class="col-lg-5">
 								<input type="text" class="form-control" maxlength="200"
-									id="firstNameInput" placeholder="Địa chỉ" />
+									id="addressInput" placeholder="Địa chỉ" />
 							</div>
-							<label for="lastNameInput" class="col-lg-2 control-label">Điểm</label>
+							<label for="averageScoreInput" class="col-lg-2 control-label">Điểm</label>
 							<div class="col-lg-3">
-								<input type="number" class="form-control" id="averageScore"
+								<input type="number" class="form-control" id="averageScoreInput"
 									placeholder="Điểm" />
 							</div>
 						</div>
@@ -155,7 +159,8 @@
 						<div class="col-lg-9 col-lg-offset-9">
 							<button class="btn btn-default" onclick="hideSearchDialog();"
 								type="button">Cancel</button>
-							<button class="btn btn-primary" type="button"  onclick="searchClick();">Search</button>
+							<button class="btn btn-primary" type="button"
+								onclick="searchClick();">Search</button>
 						</div>
 					</fieldset>
 				</form>
@@ -184,7 +189,8 @@
 					<div class="divTableCell">Edit</div>
 					<div class="divTableCell">Delete</div>
 				</div>
-				<c:set var="index" value="${pageNumber}" scope="page" />
+				<c:set var="index" value="${pageNumber * (pageIndex - 1) + 1}"
+					scope="page" />
 				<c:forEach items="${studentList}" var="student">
 					<div class="divTableRow divTableRowData">
 						<div class="divTableCell center smallcol">${index}</div>
@@ -196,7 +202,7 @@
 								value="${student.getStudentInfo().getDateOfBirth()}" />
 						</div>
 						<div class="divTableCell center ">${student.getStudentInfo().getAverageScore()}</div>
-						<div class="divTableCell autocol">${student.getStudentInfo().getAddress()}</div>
+						<div class="divTableCell autocol ">${student.getStudentInfo().getAddress()}</div>
 						<div class="divTableCell center">
 							<a
 								href="${pageContext.request.contextPath}/manager/edit/${student.getStudentId()}${searchLink}"><span
@@ -221,7 +227,7 @@
 			<li><a href="${linkpage}/1">&laquo;</a></li>
 			<li><c:forEach var="i" begin="1" end="${pageLength}">
 					<c:choose>
-						<c:when test="${i == pageNumber}">
+						<c:when test="${i == pageIndex}">
 							<li class="active"><a href="${linkpage}${i}">${i}</a></li>
 						</c:when>
 						<c:otherwise>
@@ -234,8 +240,19 @@
 		</ul>
 	</center>
 	<br>
+	<script>
+		$('#dateOfBirthInput').datepicker();
+		$('#dateOfBirthUpInput').datepicker();
+		$("#dateOfBirthInput").change(function() {
+			checkDateSearch();
+		});
+		$("#dateOfBirthUpInput").change(function() {
+			checkDateSearch();
+		});
 
-	<script type="text/javascript">
+		$("#dateOfBirthUpInput").on('change keydown paste input', function() {
+			alert("hehe");
+		});
 		var elems = document.getElementsByClassName('confirmation');
 		var confirmIt = function(e) {
 			if (!confirm('Are you sure?'))
@@ -252,31 +269,71 @@
 			$(".searchDialog").show();
 			$(".searchBox").hide();
 		}
-		function searchClick() {
-			searchViaAjax();
+		function searchClick(studentId, requestUrl) {
+			searchViaAjax(1, studentId, requestUrl);
 		}
-		function searchViaAjax() {
+		function getback(){
+			$.ajax({
+	            type: "GET",
+	            url: "subView",
+	            success: function(response) {
+	                $("html").html( response );
+	            }
+	        });
+		}
+		function doAjaxPost() {
+
+	        $.ajax({
+	            type: "GET",
+	            url: "subView",
+	            success: function(response) {
+	                $("html").html( response );
+	            }
+	        });
+	    }
+		function searchViaAjax(pageIndex, studentId, requestUrl) {
 			var student = {}
 			student["studentName"] = $("#srch-term").val();
-			var studentName = $("#userNameInput").val();
-			var averageScore = $("#averageScore").val(); 
-			student["studentName"] = studentName;
-			student["averageScore"] = averageScore;
-			student["pageIndex"] = 1;
+			student["studentId"] = studentId;
+			var x = $(".searchDialog")[0];
+			if ($(x).css('display') !== 'none') {
+				student["studentName"] = $("#studentNameInput").val();
+				student["averageScore"] = $("#averageScoreInput").val();
+				student["address"] = $("#addressInput").val();
+				student["studentCode"] = $("#studentCodeInput").val();
+				var dateFrom = new Date($("#dateOfBirthInput").val());
+				dateFrom.setHours(0, 0, 0, 0);
+				student["dateOfBirth"] = dateFrom;
+
+				var dateTo = new Date($("#dateOfBirthUpInput").val());
+				dateTo.setHours(0, 0, 0, 0);
+				student["dateOfBirthUp"] = dateTo;
+			}
+			student["pageIndex"] = pageIndex;
+
+			if (typeof requestUrl === "undefined") {
+				requestUrl = "${pageContext.request.contextPath}/manager/search"
+			} else {
+				requestUrl = "${pageContext.request.contextPath}/" + requestUrl;
+			}
 			$.ajax({
 				type : "POST",
 				contentType : "application/json",
-				url : "${pageContext.request.contextPath}/manager/search",
+				url : requestUrl,
 				data : JSON.stringify(student),
 				dataType : 'json',
 				timeout : 100000,
 				success : function(data) {
 					console.log("SUCCESS: ", data);
-					display(data);
+					if(requestUrl === "${pageContext.request.contextPath}/manager/update"){
+						$("html").empty();
+					    $("html").append(data);
+					}else{
+						display(data);
+					}
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);
-					display(e);
 				},
 				done : function(e) {
 					console.log("DONE");
@@ -284,12 +341,105 @@
 			});
 		}
 		function display(data) {
-			var json = "<h4>Ajax Response</h4><pre>"
-					+ JSON.stringify(data, null, 4) + "</pre>";
-			$('#feedback').html(json);
-			
-			$('.divTableRowData').html('');
+			var listStudent = data['listStudent'];
+			var pageIndex = data['pageIndex'];
+			var pageLength = data['pageLength'];
+			var pageNumber = data['pageNumber'];
+			loadDataSearch(listStudent, pageIndex, pageLength, pageNumber);
+		}
+		function checkDateSearch() {
+			var x = $("#dateOfBirthInput").val();
+			var y = $("#dateOfBirthUpInput").val();
+			if (x !== "" && y !== "") {
+				var dateFrom = new Date(x);
+				var dateTo = new Date(y);
+				if (dateFrom > dateTo) {
+					alert("Date not invalid!!!");
+					$("#dateOfBirthUpInput").html(x);
+				}
+			}
+		}
+		function parse(s) {
+			return (s < 10) ? '0' + s : s;
+		}
+		function loadDataSearch(listStudent, pageIndex, pageLength, pageNumber) {
+			$('.divTableBody').html('');
+			$('.pagination').html('');
+			var stringtag = "";
+			stringtag += "<form name=\"myform\" method=\"post\">";
+			stringtag += "<div class=\"divTableRow center titletext\">";
+			stringtag += "<div class=\"divTableCell\">STT</div>";
+			stringtag += "<div class=\"divTableCell\">ID</div>";
+			stringtag += "	<div class=\"divTableCell\">Fullname</div>";
+			stringtag += "	<div class=\"divTableCell\">Code</div>";
+			stringtag += "	<div class=\"divTableCell\">Birth</div>";
+			stringtag += "	<div class=\"divTableCell\">Average Score</div>";
+			stringtag += "	<div class=\"divTableCell\">Address</div>";
+			stringtag += "	<div class=\"divTableCell\">Edit</div>";
+			stringtag += "	<div class=\"divTableCell\">Delete</div>";
+			stringtag += "</div>";
+
+			var stt = (pageIndex - 1) * pageNumber + 1;
+
+			for (var index_lstStu = 0; index_lstStu < listStudent.length; index_lstStu++) {
+				stringtag += "<div class=\"divTableRow divTableRowData\">";
+				stringtag += "<div class=\"divTableCell center smallcol\">"
+						+ stt++ + "</div>";
+				stringtag += "<div class=\"divTableCell center smallcol2\">"
+						+ listStudent[index_lstStu]['studentId'] + "</div>";
+				stringtag += "<div class=\"divTableCell largecol\">"
+						+ listStudent[index_lstStu]['studentName'] + "</div>";
+				stringtag += "<div class=\"divTableCell center\">"
+						+ listStudent[index_lstStu]['studentCode'] + "</div>";
+				// format date output				
+				var date = new Date(listStudent[index_lstStu]['dateOfBirth']);
+				date = [ parse(date.getDate()), parse(date.getMonth() + 1),
+						date.getFullYear() ].join('/');
+				stringtag += "<div class=\"divTableCell center\">" + date
+						+ "</div>";
+				stringtag += "<div class=\"divTableCell center \">"
+						+ listStudent[index_lstStu]['averageScore'] + "</div>";
+				stringtag += "<div class=\"divTableCell autocol\">"
+						+ listStudent[index_lstStu]['address'] + "</div>";
+
+				stringtag += "<div class=\"divTableCell center\">";
+				stringtag += "<a ";
+				stringtag += "href=\"javascript:doAjaxPost();\"><span ";
+				stringtag += "class=\"editbutton\"></span></a>";
+				stringtag += "</div>";
+				stringtag += "<div class=\"divTableCell center\">";
+				stringtag += "<a ";
+				stringtag += "	href=\"javascript:searchClick("
+						+ listStudent[index_lstStu]['studentId']
+						+ ", 'manager/delete');\"><span ";
+				stringtag += "class=\"deletebutton\"";
+				stringtag += "onclick=\"return confirm('Are you sure to delete this?')\"></span></a>";
+				stringtag += "</div>";
+
+				stringtag += "</div>";
+			}
+
+			stringtag += "</form>";
+			if (listStudent.length === 0) {
+				stringtag = "<h4 class = \"center\">No student found</h4>";
+				$('.divTableBody').html(stringtag);
+			} else {
+				$('.divTableBody').html(stringtag);
+
+				stringtag = "";
+				stringtag += "<li><a href=\"javascript:searchViaAjax(1);\">&laquo;</a></li>";
+				for (var indexpage = 1; indexpage <= pageLength; indexpage++) {
+					if (indexpage === pageIndex)
+						stringtag += "<li class=\"active\"><a href=\"javascript:searchViaAjax("
+								+ indexpage + ");\">" + indexpage + "</a></li>";
+					else
+						stringtag += "<li><a href=\"javascript:searchViaAjax("
+								+ indexpage + ");\">" + indexpage + "</a></li>";
+				}
+				stringtag += "<li><a href=\"javascript:searchViaAjax("
+						+ pageLength + ");\">&raquo;</a></li>";
+				$('.pagination').html(stringtag);
+			}
 		}
 	</script>
-</body>
 </html>

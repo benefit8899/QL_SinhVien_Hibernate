@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.jdbc.StringUtils;
 import com.vanloi.model.Student;
 import com.vanloi.model.StudentInfo;
 import com.vanloi.model.StudentSearch;
@@ -90,12 +91,12 @@ public class StudentDao {
 //		String query = "from Student s, StudentInfo sf where s = sf.student";
 
 		String query = "from Student s, StudentInfo sf where sf.student = s";
-		if (student.getStudentName() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentName()))
 			query += " and student_name like :studentName";
-		if (student.getStudentCode() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentCode()))
 			query += " and student_code = :studentCode ";
-			if (student.getAddress() != null)
-				query += " and student_address like :studentAddress";
+			if (!StringUtils.isNullOrEmpty(student.getAddress()))
+				query += " and address like :studentAddress";
 			if (student.getAverageScore() != -1)
 				query += " and average_score >= :averageScore ";
 			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() !=  null)
@@ -107,13 +108,13 @@ public class StudentDao {
 	
 		Query queryS = session.createQuery(query);
 
-		if (student.getStudentName() != null) {
+		if (!StringUtils.isNullOrEmpty(student.getStudentName())) {
 			queryS.setParameter("studentName","%" + student.getStudentName() + "%");
 		}
-		if (student.getStudentCode() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentCode()))
 			queryS.setParameter("studentCode", student.getStudentCode());
-			if (student.getAddress() != null)
-				queryS.setParameter("studentAddress", student.getAddress());
+			if (!StringUtils.isNullOrEmpty(student.getAddress()))
+				queryS.setParameter("studentAddress","%"+ student.getAddress()+ "%") ;
 			if (student.getAverageScore() != -1)
 				queryS.setParameter("averageScore", student.getAverageScore());
 			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() != null) {
@@ -149,12 +150,12 @@ public class StudentDao {
 //		String query = "from Student s, StudentInfo sf where s = sf.student";
 
 		String query = "select count (*) from Student s, StudentInfo sf where sf.student = s";
-		if (student.getStudentName() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentName()))
 			query += " and student_name like :studentName";
-		if (student.getStudentCode() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentCode()))
 			query += " and student_code = :studentCode ";
-			if (student.getAddress() != null)
-				query += " and student_address like :studentAddress";
+			if (!StringUtils.isNullOrEmpty(student.getAddress()))
+				query += " and address like :studentAddress";
 			if (student.getAverageScore() != -1)
 				query += " and average_score >= :averageScore ";
 			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() !=  null)
@@ -166,13 +167,13 @@ public class StudentDao {
 	
 		Query queryS = session.createQuery(query);
 
-		if (student.getStudentName() != null) {
+		if (!StringUtils.isNullOrEmpty(student.getStudentName())) {
 			queryS.setParameter("studentName","%" + student.getStudentName() + "%");
 		}
-		if (student.getStudentCode() != null)
+		if (!StringUtils.isNullOrEmpty(student.getStudentCode()))
 			queryS.setParameter("studentCode", student.getStudentCode());
-			if (student.getAddress() != null)
-				queryS.setParameter("studentAddress", student.getAddress());
+			if (!StringUtils.isNullOrEmpty(student.getAddress()))
+				queryS.setParameter("studentAddress","%" +student.getAddress() + "%");
 			if (student.getAverageScore() != -1)
 				queryS.setParameter("averageScore", student.getAverageScore());
 			if (student.getDateOfBirth() != null && student.getDateOfBirthUp() != null) {

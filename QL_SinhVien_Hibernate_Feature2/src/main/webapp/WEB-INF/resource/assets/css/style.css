@@ -38,6 +38,7 @@ body {
 
 .autocol {
 	width: 45%;
+	overflow: auto;
 }
 
 .mainaddstudent {

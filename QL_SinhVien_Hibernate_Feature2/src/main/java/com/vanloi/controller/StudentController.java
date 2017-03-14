@@ -49,6 +49,11 @@ public class StudentController {
 	// get request page login page
 	@RequestMapping(value = { "login" }, method = RequestMethod.GET)
 	public String getLoginPage(Model model, HttpSession session) {
+		String userName = (String) session.getAttribute("userName");
+		if (!StringUtils.isNullOrEmpty(userName)) {
+			model.addAttribute("userName", userName);
+			return loadPage(model,session);
+		}
 		User user = new User();
 		model.addAttribute("userLogin", user);
 		return "login";
@@ -67,9 +72,6 @@ public class StudentController {
 			model.addAttribute("page", "1");
 			session.setAttribute("userName", user.getUserName());
 			session.setAttribute("page", "1");
-
-			logger.info("This is an info log entry");
-			logger.error("This is an error log entry");
 
 			return loadPage(model, session);
 		} else {
@@ -121,8 +123,9 @@ public class StudentController {
 			studentList = studentService.getAllStudentsLimit(startIndex, NUMBER_RECORD_IN_PAGE);
 		}
 		model.addAttribute("studentList", studentList);
-		model.addAttribute("pageNumber", pageNumber);
+		model.addAttribute("pageIndex", pageNumber);
 		model.addAttribute("pageLength", pageLength);
+		model.addAttribute("pageNumber", NUMBER_RECORD_IN_PAGE);
 		model.addAttribute("userName", userName);
 		return "manager";
 	}
@@ -143,6 +146,8 @@ public class StudentController {
 		student.setStudentInfo(new StudentInfo());
 		student.getStudentInfo().setDateOfBirth(new Date());
 		model.addAttribute(student);
+		logger.info("INSERT STUDENT");
+		
 		return "register-student";
 	}
 
@@ -175,6 +180,7 @@ public class StudentController {
 		Student student = studentService.getStudent(Integer.valueOf(student_id));
 		student.setStudentInfo(student.getStudentInfos().iterator().next());
 		model.addAttribute("student", student);
+		logger.info("UPDATE STUDENT");
 		return "register-student";
 	}
 
@@ -205,6 +211,8 @@ public class StudentController {
 			return "index";
 
 		studentService.deleteStudent(Integer.valueOf(student_id));
+
+		logger.info("DELETE STUDENT");
 		return loadPage(model, session);
 	}
 
@@ -231,7 +239,5 @@ public class StudentController {
 
 		return "register-subject";
 	}
-
-	
 
 }

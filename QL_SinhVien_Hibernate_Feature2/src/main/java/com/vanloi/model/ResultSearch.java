@@ -23,6 +23,13 @@ public class ResultSearch {
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
+	public int getPageNumber() {
+		return pageNumber;
+	}
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
 	private int pageLength = 0;
 	private int pageIndex = 0;
+	private int pageNumber = 0;
 }
