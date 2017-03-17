@@ -37,13 +37,15 @@ body {
 					<ul class="nav navbar-nav navbar-right">
 
 						<li><a href="${pageContext.request.contextPath}/manager">Manager</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/register-subject.html">Register
-								Subject</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/subject-manager.html">Subject</a></li>
-						<li><a class="dropdown-toggle" type="button"
-							data-toggle="dropdown">${userName}</span>
+<!-- 						<li><a -->
+<%-- 							href="${pageContext.request.contextPath}/register-subject.html">Register --%>
+<!-- 								Subject</a></li> -->
+<!-- 						<li><a -->
+<%-- 							href="${pageContext.request.contextPath}/subject-manager.html">Subject</a></li> --%>
+						<li role="presentation" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">
+						${userName } <span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
 								<li><a href="#">Logout</a></li>

@@ -2,12 +2,15 @@ package com.vanloi.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.vanloi.model.Student;
 import com.vanloi.model.User;
 
 @Repository
@@ -26,14 +29,24 @@ public class UserDao {
 		List<User> userList = session.createQuery("from User").list();
 		return userList;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
-	public User getUserByUserName(String userName){
+	public User getUserByUserName(String userName) {
 		Session session = this.sessionFactory.getCurrentSession();
-		Query query= session.createQuery("from User where user_name=:userName");
-		query.setString("userName", userName);
-		List results = query.list();
-		return results.size() > 0 ? (User) results.get(0): null;
+		
+		//HQL
+//		Query query = session.createQuery("from User where user_name=:userName");
+//		query.setString("userName", userName);
+//		List results = query.list();
+		
+		//Criteria
+		Criteria criteria = session.createCriteria(User.class).add(Restrictions.eq("userName", userName));
+		List results = criteria.list();
+		
+		//SQLQuery
+		session.createSQLQuery("SELECT * FROM user WHERE user_name = ").addEntity("customer", User.class);
+		
+		return results.size() > 0 ? (User) results.get(0) : null;
 	}
 
 	public User getUser(int id) {
@@ -59,5 +72,5 @@ public class UserDao {
 		if (null != p) {
 			session.delete(p);
 		}
-	}	
+	}
 }

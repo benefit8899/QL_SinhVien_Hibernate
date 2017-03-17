@@ -59,11 +59,6 @@
 			<ul class="nav navbar-nav navbar-right">
 
 				<li><a href="${pageContext.request.contextPath}/">Home</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/register-subject.html">Register
-						Subject</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/subject-manager.html">Subject</a></li>
 				<li><a class="dropdown-toggle" type="button"
 					data-toggle="dropdown">${userName}</span>
 				</a>
@@ -95,39 +90,37 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<form:form id="myForm" method="post"
-							class="bs-example form-horizontal" commandName="student"
-							onsubmit="return validateForm()">
+							class="bs-example form-horizontal" commandName="student">
 							<fieldset>
 								<div class="form-group">
-									<label for="userNameInput" class="col-lg-3 control-label">Họ tên</label>
+									<label for="userNameInput" class="col-lg-3 control-label">Full name</label>
 									<div class="col-lg-9">
 										<form:input type="text" class="form-control"
-											path="studentName" id="userNameInput" placeholder="User Name" maxlength="100"
+											path="studentName" id="userNameInput" placeholder="Student Name" maxlength="100"
 											value="${student.getStudentName()}" />
 										<form:errors path="studentName" cssClass="error" />
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="passwordInput" class="col-lg-3 control-label">Mã
-										sv</label>
+									<label for="passwordInput" class="col-lg-3 control-label">Code</label>
 									<div class="col-lg-9">
 										<form:input type="text" class="form-control" maxlength="50"
-											path="studentCode" id="passwordInput" placeholder="MASV" />
+											path="studentCode" id="passwordInput" placeholder="Student Code" />
 										<form:errors path="studentCode" cssClass="error" />
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="firstNameInput" class="col-lg-3 control-label">Địa chỉ</label>
+									<label for="firstNameInput" class="col-lg-3 control-label">Address</label>
 									<div class="col-lg-9">
 										<form:input type="text" class="form-control" path="studentInfo.address" maxlength="200"
-											id="firstNameInput" placeholder="Địa chỉ" />
+											id="firstNameInput" placeholder="Address" />
 										<form:errors path="studentInfo.address" cssClass="error" />
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="dateOfBirthInput" class="col-lg-3 control-label">Ngày sinh</label>
+									<label for="dateOfBirthInput" class="col-lg-3 control-label">Date of birth</label>
 									<div class="date form_date col-lg-9">
-										<fmt:formatDate pattern="MM/dd/yyyy" var="dateformat"
+										<fmt:formatDate pattern="dd/MM/yyyy" var="dateformat"
 											value="${student.getStudentInfo().getDateOfBirth()}" />
 										<form:input type="text" class="form-control inputDate"
 											path="studentInfo.dateOfBirth" id="dateOfBirthInput"
@@ -137,10 +130,10 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="lastNameInput" class="col-lg-3 control-label">Điểm</label>
+									<label for="lastNameInput" class="col-lg-3 control-label">Average Score</label>
 									<div class="col-lg-9">
-										<form:input type="number" class="form-control"
-											path="studentInfo.averageScore" id="lastNameInput" placeholder="Điểm" />
+										<form:input type="number" step="0.001" class="form-control"
+											path="studentInfo.averageScore" id="lastNameInput" placeholder="Score" />
 										<form:errors path="studentInfo.averageScore" cssClass="error" />
 									</div>
 								</div>

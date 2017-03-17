@@ -29,7 +29,14 @@ public class ResultSearch {
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
 	}
+	public PageParameter getPageParameter() {
+		return pageParameter;
+	}
+	public void setPageParameter(PageParameter pageParameter) {
+		this.pageParameter = pageParameter;
+	}
 	private int pageLength = 0;
 	private int pageIndex = 0;
 	private int pageNumber = 0;
+	private PageParameter pageParameter = new PageParameter();
 }

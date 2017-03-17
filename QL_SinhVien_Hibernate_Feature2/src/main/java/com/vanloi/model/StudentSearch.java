@@ -77,4 +77,13 @@ public class StudentSearch{
 	public void setPageIndex(int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
+	public boolean isAdvanceSearch() {
+		return advanceSearch;
+	}
+
+	public void setAdvanceSearch(boolean advanceSearch) {
+		this.advanceSearch = advanceSearch;
+	}
+
+	private boolean advanceSearch = false;
 }
